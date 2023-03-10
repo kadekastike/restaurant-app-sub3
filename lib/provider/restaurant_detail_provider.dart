@@ -12,14 +12,14 @@ class RestaurantDetailProvider extends ChangeNotifier {
   }
 
   late RestaurantDetail _restaurantDetail;
-  late ResultState _state;
+  ResultState? _state;
   String _message = '';
 
   String get message => _message;
   
   RestaurantDetail get restaurantDetail => _restaurantDetail;
 
-  ResultState get state => _state;
+  ResultState? get state => _state;
 
   Future<dynamic> _fetchRestaurantDetail(String id) async {
     try {

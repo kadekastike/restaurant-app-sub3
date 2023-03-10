@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/result_state.dart';
 import 'package:restaurant_app/data/model/restaurant_list.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/restaurant_detail_provider.dart';
 
-class RestaurantDetailScreen extends StatelessWidget {
+class RestaurantDetailScreen extends StatefulWidget {
   const RestaurantDetailScreen({super.key, required this.restaurantElement});
 
   static const routeName = '/restaurant-detail';
@@ -12,12 +13,45 @@ class RestaurantDetailScreen extends StatelessWidget {
   final RestaurantElement restaurantElement;
 
   @override
+  State<RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
+}
+
+class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
+  @override
+  void initState() {
+    Future.microtask(() {
+      Provider.of<RestaurantDetailProvider>(context, listen: false)
+          .getRestaurantDetail(widget.restaurantElement.id);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (_) {
-      var provider = RestaurantDetailProvider();
-      return provider.getRestaurantDetail(restaurantElement.id);
-    }, child: Scaffold(
-      body: Consumer<RestaurantDetailProvider>(
+    return Scaffold(floatingActionButton: SafeArea(
+        child: Consumer<DatabaseProvider>(builder: (context, provider, child) {
+      return FutureBuilder<bool>(
+        future: provider.isFavorite(widget.restaurantElement.id),
+        builder: (context, snapshot) {
+          var isFavorite = snapshot.data ?? false;
+          return FloatingActionButton(
+              onPressed: () async {
+                if (isFavorite) {
+                  provider.removeFavorite(widget.restaurantElement.id);
+                } else {
+                  provider.addFavorite(widget.restaurantElement);
+                }
+              },
+              backgroundColor: Colors.white,
+              child: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: Colors.pink,
+                  ),
+              );
+        },
+      );
+    })), body: SafeArea(
+      child: Consumer<RestaurantDetailProvider>(
         builder: (context, state, _) {
           if (state.state == ResultState.loading) {
             return const Center(child: CircularProgressIndicator());
@@ -185,8 +219,8 @@ class RestaurantDetailScreen extends StatelessWidget {
                           width: (MediaQuery.of(context).size.width * 0.92),
                           child: ListView(
                               scrollDirection: Axis.horizontal,
-                              children: state.restaurantDetail.restaurant
-                                  .menus.drinks
+                              children: state
+                                  .restaurantDetail.restaurant.menus.drinks
                                   .map((drinks) {
                                 return Row(children: [
                                   _buildChipForMenu(drinks.name),
@@ -202,16 +236,17 @@ class RestaurantDetailScreen extends StatelessWidget {
             );
           } else if (state.state == ResultState.noData) {
             return const Center(
-            child: Material(
-              child: Text("Terjadi Kesalahan, Data Tidak dapat dimuat"),
-            ),
-          );
+              child: Material(
+                child: Text("Terjadi Kesalahan, Data Tidak dapat dimuat"),
+              ),
+            );
           } else if (state.state == ResultState.error) {
             return const Center(
-            child: Material(
-              child: Text("Terjadi Kesalahan, Periksa Koneksi Internet Anda dan Coba Lagi"),
-            ),
-          );
+              child: Material(
+                child: Text(
+                    "Terjadi Kesalahan, Periksa Koneksi Internet Anda dan Coba Lagi"),
+              ),
+            );
           } else {
             return const Center(
               child: Text('Data Kosong'),

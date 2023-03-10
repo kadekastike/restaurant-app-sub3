@@ -20,6 +20,7 @@ class DatabaseProvider extends ChangeNotifier {
   List<RestaurantElement> get favorites => _favorites;
 
   void _getFavorites() async {
+    _state = ResultState.loading;
     _favorites = await databaseHelper.getFavorites();
     if (_favorites.isNotEmpty) {
       _state = ResultState.hasData;

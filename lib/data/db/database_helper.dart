@@ -22,10 +22,10 @@ class DatabaseHelper {
         await db.execute('''CREATE TABLE $_tblFavorite(
           id TEXT PRIMARY KEY,
           name TEXT,
+          description TEXT,
+          pictureId TEXT,
           city TEXT,
-          rating INT,
-          description TEXT
-          pictureId TEXT
+          rating REAL
         )
         ''');
       },
@@ -74,7 +74,7 @@ class DatabaseHelper {
 
     await db!.delete(
       _tblFavorite,
-      where: 'url = ?',
+      where: 'id = ?',
       whereArgs: [id],
     );
   }
