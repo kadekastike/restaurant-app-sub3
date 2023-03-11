@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/result_state.dart';
 import 'package:restaurant_app/data/model/restaurant_list.dart';
+import 'package:restaurant_app/helper/navigation.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/restaurant_detail_provider.dart';
 
@@ -78,7 +79,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigation.back();
                               },
                             )
                           ],

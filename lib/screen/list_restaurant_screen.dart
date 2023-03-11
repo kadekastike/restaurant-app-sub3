@@ -4,15 +4,37 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/screen/favorite_screen.dart';
+import 'package:restaurant_app/screen/restaurant_detail_screen.dart';
 import 'package:restaurant_app/screen/search_page.dart';
 import 'package:restaurant_app/screen/setting_screen.dart';
 import '../common/result_state.dart';
+import '../helper/notification_helper.dart';
 import '../widgets/restaurant_card.dart';
 
-class RestaurantListScreen extends StatelessWidget {
+class RestaurantListScreen extends StatefulWidget {
   const RestaurantListScreen({super.key});
 
   static const routeName = '/restaurant-list';
+
+  @override
+  State<RestaurantListScreen> createState() => _RestaurantListScreenState();
+}
+
+class _RestaurantListScreenState extends State<RestaurantListScreen> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantDetailScreen.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
