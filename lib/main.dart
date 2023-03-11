@@ -19,7 +19,6 @@ import 'package:restaurant_app/screen/setting_screen.dart';
 import 'package:restaurant_app/screen/splash_screen.dart';
 import 'package:restaurant_app/data/model/restaurant_list.dart';
 import 'package:restaurant_app/utils/background_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'helper/notification_helper.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
