@@ -43,7 +43,8 @@ class NotificationHelper {
   Future<void> showNotification(
      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
      RestaurantList restaurants) async {
-      var randomRestaurant = restaurants.restaurants[Random().nextInt(restaurants.restaurants.length)];
+      var randomRestaurant = restaurants.restaurants[
+        Random().nextInt(restaurants.restaurants.length)];
     var channelId = "1";
     var channelName = "channel_01";
     var channelDescription = "favorite restaurant chaneel"; 
