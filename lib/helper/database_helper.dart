@@ -1,4 +1,3 @@
-import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/data/model/restaurant_list.dart';
 import 'package:sqflite/sqflite.dart';
 

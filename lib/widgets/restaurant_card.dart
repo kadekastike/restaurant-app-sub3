@@ -5,9 +5,9 @@ import 'package:restaurant_app/helper/navigation.dart';
 import '../screen/restaurant_detail_screen.dart';
 
 class RestaurantCard extends StatelessWidget {
-  RestaurantElement restaurant;
+  final RestaurantElement restaurant;
 
-  RestaurantCard({super.key, required this.restaurant});
+  const RestaurantCard({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
